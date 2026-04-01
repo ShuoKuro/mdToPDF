@@ -6,7 +6,8 @@ Markdown 轉 PDF 桌面工具，支援數學公式（KaTeX）渲染。
 
 - 將 `.md` 檔案轉換為 PDF
 - 支援 KaTeX 數學公式（行內 `$...$` 及區塊 `$$...$$`）
-- GUI 介面：選擇輸入檔案、輸出資料夾
+- GUI 介面：選擇輸入檔案、自訂輸出檔名、選擇輸出資料夾
+- 應用程式內檢查更新，一鍵前往下載最新版本
 - 打包為 Windows `.exe` 安裝程式
 
 ## 快速開始
@@ -25,10 +26,10 @@ npm run build
 ## 發佈流程
 
 ```bash
-# Beta 版（prerelease）
+# Beta 版
 npm run release:beta
 # 執行 npm version prerelease --preid=beta（例如 1.0.0 → 1.0.1-beta.0）
-# 自動 commit + push tag → 觸發 CI
+# 自動 commit + push tag → 觸發 CI（不會標記為 pre-release）
 
 # Patch 版
 npm run release:patch

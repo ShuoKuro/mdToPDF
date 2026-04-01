@@ -91,11 +91,19 @@
     .info { color: #2980b9; }
 
     footer {
-      text-align: right;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       padding: 6px 14px;
       font-size: 11px;
       color: #aaa;
     }
+    footer a {
+      color: #3498db;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    footer a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -110,6 +118,11 @@
   </div>
 
   <div class="field">
+    <label>輸出檔名：</label>
+    <input type="text" id="outputName" placeholder="例如：output.pdf">
+  </div>
+
+  <div class="field">
     <label>輸出位置：</label>
     <input type="text" id="outputPath" readonly placeholder="請選擇輸出資料夾">
     <button id="selectDirBtn">瀏覽…</button>
@@ -119,7 +132,10 @@
   <div id="status"></div>
 </div>
 
-<footer id="versionLabel">版本載入中…</footer>
+<footer>
+  <span id="versionLabel">版本載入中…</span>
+  <span><span id="updateMsg"></span> <a href="#" id="checkUpdateBtn">檢查更新</a></span>
+</footer>
 
 <script src="renderer.js"></script>
 </body>

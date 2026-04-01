@@ -5,4 +5,6 @@ contextBridge.exposeInMainWorld('api', {
   selectOutputDir: () => ipcRenderer.invoke('select-output-dir'),
   getVersion: () => ipcRenderer.invoke('get-version'),
   convert: (opts) => ipcRenderer.invoke('convert', opts),
+  checkForUpdates: () => ipcRenderer.invoke('check-for-updates'),
+  openExternal: (url) => ipcRenderer.invoke('open-external', url),
 });

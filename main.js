@@ -1,13 +1,14 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron');
 const path = require('path');
 const fs = require('fs');
+const https = require('https');
 
 let mainWindow;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 600,
-    height: 480,
+    height: 530,
     resizable: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -47,14 +48,14 @@ ipcMain.handle('get-version', () => {
   return pkg.version;
 });
 
-ipcMain.handle('convert', async (_event, { inputFile, outputDir }) => {
+ipcMain.handle('convert', async (_event, { inputFile, outputDir, outputFileName }) => {
   try {
     const markdownIt = require('markdown-it');
     const mk = require('@vscode/markdown-it-katex');
 
     const mdContent = fs.readFileSync(inputFile, 'utf-8');
     const baseName = path.basename(inputFile, '.md');
-    const outputFile = path.join(outputDir, `${baseName}.pdf`);
+    const outputFile = path.join(outputDir, outputFileName || `${baseName}.pdf`);
 
     const md = markdownIt({ html: true });
     md.use(mk.default || mk);
@@ -106,5 +107,51 @@ ${htmlBody}
     return { success: true, outputFile };
   } catch (err) {
     return { success: false, error: err.message };
+  }
+});
+
+ipcMain.handle('check-for-updates', async () => {
+  const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json'), 'utf-8'));
+  const currentVersion = pkg.version;
+
+  return new Promise((resolve) => {
+    const options = {
+      hostname: 'api.github.com',
+      path: '/repos/ShuoKuro/mdToPDF/releases/latest',
+      headers: { 'User-Agent': 'mdToPDF' },
+    };
+
+    https.get(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => (data += chunk));
+      res.on('end', () => {
+        try {
+          const release = JSON.parse(data);
+          const latestVersion = release.tag_name.replace(/^v/, '');
+          if (latestVersion !== currentVersion) {
+            const asset = release.assets?.find((a) => a.name.endsWith('.exe'));
+            resolve({
+              hasUpdate: true,
+              currentVersion,
+              latestVersion,
+              downloadUrl: asset?.browser_download_url || release.html_url,
+              releaseUrl: release.html_url,
+            });
+          } else {
+            resolve({ hasUpdate: false, currentVersion });
+          }
+        } catch (e) {
+          resolve({ hasUpdate: false, error: e.message });
+        }
+      });
+    }).on('error', (e) => {
+      resolve({ hasUpdate: false, error: e.message });
+    });
+  });
+});
+
+ipcMain.handle('open-external', async (_event, url) => {
+  if (url && url.startsWith('https://github.com/ShuoKuro/mdToPDF/')) {
+    await shell.openExternal(url);
   }
 });
