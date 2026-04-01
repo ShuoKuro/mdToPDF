@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="utf-8">
+  <title>MD to PDF</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Segoe UI", "Microsoft JhengHei", sans-serif;
+      background: #f5f7fa;
+      color: #333;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    .container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 40px 10px;
+      gap: 18px;
+    }
+
+    h1 {
+      font-size: 22px;
+      color: #1a5276;
+      margin-bottom: 6px;
+    }
+    h1 span { font-size: 13px; color: #888; font-weight: normal; }
+
+    .field {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .field label {
+      width: 90px;
+      text-align: right;
+      font-size: 14px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .field input {
+      flex: 1;
+      padding: 7px 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 13px;
+      background: #fff;
+    }
+    .field button {
+      padding: 7px 14px;
+      border: 1px solid #3498db;
+      background: #3498db;
+      color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    .field button:hover { background: #2980b9; }
+
+    #convertBtn {
+      margin-top: 8px;
+      padding: 10px 50px;
+      font-size: 15px;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      background: #27ae60;
+      color: #fff;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    #convertBtn:hover { background: #219a52; }
+    #convertBtn:disabled { background: #aaa; cursor: not-allowed; }
+
+    #status {
+      margin-top: 4px;
+      font-size: 13px;
+      min-height: 20px;
+      text-align: center;
+    }
+    .success { color: #27ae60; }
+    .error { color: #e74c3c; }
+    .info { color: #2980b9; }
+
+    footer {
+      text-align: right;
+      padding: 6px 14px;
+      font-size: 11px;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>MD to PDF <span>— Markdown 轉 PDF 工具</span></h1>
+
+  <div class="field">
+    <label>輸入檔案：</label>
+    <input type="text" id="inputPath" readonly placeholder="請選擇 .md 檔案">
+    <button id="selectFileBtn">瀏覽…</button>
+  </div>
+
+  <div class="field">
+    <label>輸出位置：</label>
+    <input type="text" id="outputPath" readonly placeholder="請選擇輸出資料夾">
+    <button id="selectDirBtn">瀏覽…</button>
+  </div>
+
+  <button id="convertBtn">轉換為 PDF</button>
+  <div id="status"></div>
+</div>
+
+<footer id="versionLabel">版本載入中…</footer>
+
+<script src="renderer.js"></script>
+</body>
+</html>

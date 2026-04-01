@@ -1,0 +1,54 @@
+{
+  "name": "md-to-pdf",
+  "version": "1.0.0",
+  "description": "Markdown to PDF converter with math (KaTeX) support and GUI",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win",
+    "release:beta": "npm version prerelease --preid=beta && git push && git push --tags",
+    "release:patch": "npm version patch && git push && git push --tags",
+    "release:stable": "npm version minor && git push && git push --tags"
+  },
+  "build": {
+    "appId": "com.mdtopdf.app",
+    "productName": "MD to PDF",
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer/**",
+      "node_modules/**",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "node_modules/puppeteer/.local-chromium",
+        "to": "puppeteer-chromium",
+        "filter": ["**/*"]
+      }
+    ],
+    "publish": [
+      {
+        "provider": "github",
+        "releaseType": "release"
+      }
+    ]
+  },
+  "dependencies": {
+    "@vscode/markdown-it-katex": "^1.1.2",
+    "markdown-it": "^14.1.1",
+    "puppeteer": "^24.40.0"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.1.8"
+  }
+}
