@@ -1,6 +1,6 @@
 {
   "name": "md-to-pdf",
-  "version": "1.0.0",
+  "version": "1.0.1-beta.0",
   "description": "Markdown to PDF converter with math (KaTeX) support and GUI",
   "main": "main.js",
   "scripts": {
@@ -32,7 +32,9 @@
       {
         "from": "node_modules/puppeteer/.local-chromium",
         "to": "puppeteer-chromium",
-        "filter": ["**/*"]
+        "filter": [
+          "**/*"
+        ]
       }
     ],
     "publish": [
