@@ -2,6 +2,10 @@
   "name": "md-to-pdf",
   "version": "1.0.1-beta.0",
   "description": "Markdown to PDF converter with math (KaTeX) support and GUI",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ShuoKuro/mdToPDF.git"
+  },
   "main": "main.js",
   "scripts": {
     "start": "electron .",
