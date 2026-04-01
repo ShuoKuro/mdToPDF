@@ -26,10 +26,10 @@ npm run build
 ## 發佈流程
 
 ```bash
-# Beta 版
+# Beta 版（pre-release）
 npm run release:beta
 # 執行 npm version prerelease --preid=beta（例如 1.0.0 → 1.0.1-beta.0）
-# 自動 commit + push tag → 觸發 CI（不會標記為 pre-release）
+# 自動 commit + push tag → 觸發 CI，標記為 Pre-release
 
 # Patch 版
 npm run release:patch

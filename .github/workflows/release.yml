@@ -33,6 +33,11 @@ jobs:
         shell: bash
         run: |
           TAG="${GITHUB_REF#refs/tags/}"
+          if [[ "$TAG" == *"-beta"* ]]; then
+            echo "is_prerelease=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "is_prerelease=false" >> "$GITHUB_OUTPUT"
+          fi
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
 
       - name: Create GitHub Release
@@ -40,7 +45,7 @@ jobs:
         with:
           tag_name: ${{ steps.tagname.outputs.tag }}
           name: ${{ steps.tagname.outputs.tag }}
-          prerelease: false
+          prerelease: ${{ steps.tagname.outputs.is_prerelease }}
           generate_release_notes: true
           files: |
             dist/*.exe
